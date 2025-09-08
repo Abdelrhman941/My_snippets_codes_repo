@@ -1,0 +1,338 @@
+{
+"Logistic Regression": {
+    "prefix": "sk: (mc) Logistic_Regression",
+    "description": "Create and fit LogisticRegression model",
+    "body": [
+        "from sklearn.linear_model import LogisticRegression",
+        "",
+        "${1:lr_model} = LogisticRegression(",
+        "    random_state=${2:42},",
+        "    max_iter=${3:1000}",
+        ")",
+        "$1.fit(${4:X_train}, ${5:y_train})",
+    ]
+},
+// =========================
+"Random Forest Classifier": {
+    "prefix": "sk: (mc) RF_classifier",
+    "description": "Create and fit RandomForestClassifier model",
+    "body": [
+        "from sklearn.ensemble import RandomForestClassifier",
+        "",
+        "${1:rf_model} = RandomForestClassifier(",
+        "    n_estimators=${2:100},",
+        "    max_depth=${3:None},",
+        "    random_state=${4:42}",
+        ")",
+        "$1.fit(${5:X_train}, ${6:y_train})",
+    ]
+},
+// =========================
+"Support Vector Classifier": {
+    "prefix": "sk: (mc) SVC",
+    "description": "Create and fit Support Vector Classifier model",
+    "body": [
+        "from sklearn.svm import SVC",
+        "",
+        "${1:svc_model} = SVC(",
+        "    kernel='${2|rbf,linear,poly,sigmoid|}',",
+        "    random_state=${3:42}",
+        ")",
+        "$1.fit(${4:X_train}, ${5:y_train})",
+    ]
+},
+// =========================
+"Gradient Boosting Classifier": {
+    "prefix": "sk: (mc) gradient_boosting_classifier",
+    "description": "Create and fit GradientBoostingClassifier model",
+    "body": [
+        "from sklearn.ensemble import GradientBoostingClassifier",
+        "",
+        "${1:gb_model} = GradientBoostingClassifier(",
+        "    n_estimators=${2:100},",
+        "    learning_rate=${3:0.1},",
+        "    random_state=${4:42}",
+        ")",
+        "$1.fit(${5:X_train}, ${6:y_train})",
+    ]
+},
+// =========================
+"K-Neighbors Classifier": {
+    "prefix": "sk: (mc) knn_classifier",
+    "description": "Create and fit K-Nearest Neighbors classifier",
+    "body": [
+        "from sklearn.neighbors import KNeighborsClassifier",
+        "",
+        "${1:knn_model} = KNeighborsClassifier(",
+        "    n_neighbors=${2:5}",
+        ")",
+        "$1.fit(${3:X_train}, ${4:y_train})",
+    ]
+},
+// =========================
+"Decision Tree Classifier": {
+    "prefix": "sk: (mc) DT_classifier",
+    "description": "Create and fit DecisionTreeClassifier model",
+    "body": [
+        "from sklearn.tree import DecisionTreeClassifier",
+        "",
+        "${1:dt_model} = DecisionTreeClassifier(",
+        "    max_depth=${2:None},",
+        "    random_state=${3:42}",
+        ")",
+        "$1.fit(${4:X_train}, ${5:y_train})",
+    ]
+},
+// =========================
+"Cross Validation": {
+    "prefix": "sk: (mc) cross_validation_classifier",
+    "description": "Perform cross-validation on classifier",
+    "body": [
+        "from sklearn.model_selection import cross_val_score",
+        "",
+        "# Perform cross-validation",
+        "cv_scores = cross_val_score(",
+        "    ${1:model}, ${2:X}, ${3:y},",
+        "    cv=${4:5},",
+        "    scoring='${5|accuracy,precision,recall,f1|}'",
+        ")",
+        "",
+        "print(f'CV Scores: {cv_scores}')",
+        "print(f'Mean CV Score: {cv_scores.mean():.4f} (+/- {cv_scores.std() * 2:.4f})')",
+        "print(f'Most Accurate: {cv_scores.max():.4f}')",
+    ]
+},
+// =========================
+"XGBoost Classifier": {
+    "prefix": "sk: (mc) xgb_classifier",
+    "description": "Insert an XGBClassifier with predefined hyperparameters and fit it",
+    "body": [
+        "from xgboost import XGBClassifier",
+        "",
+        "xgb_model = XGBClassifier(",
+        "    n_estimators=${1:500},",
+        "    learning_rate=${2:0.05},",
+        "    max_depth=${3:8},",
+        "    reg_alpha=${4:0.1},",
+        "    reg_lambda=${5:1.0},",
+        "    gamma=${6:0.1},",
+        "    subsample=${7:0.8},",
+        "    colsample_bytree=${8:0.8},",
+        "    colsample_bylevel=${9:0.8},",
+        "    tree_method=${10:\"hist\"},",
+        "    grow_policy=${11:\"depthwise\"},",
+        "    scale_pos_weight=${12:1},",
+        "    random_state=${13:42},",
+        "    n_jobs=${14:-1},",
+        "    eval_metric=${15:\"auc\"},",
+        "    verbosity=${16:0},",
+        "    enable_categorical=${17:True}",
+        ")",
+        "",
+        "xgb_model.fit(${18:X_train}, ${19:y_train})"
+    ]
+},
+// =========================
+"LightGBM Classifier": {
+    "prefix": "sk: (mc) lgbm_classifier",
+    "description": "Insert an LGBMClassifier with predefined hyperparameters and fit it",
+    "body": [
+        "from lightgbm import LGBMClassifier",
+        "",
+        "lgbm_model = LGBMClassifier(",
+        "    n_estimators=${1:500},",
+        "    learning_rate=${2:0.05},",
+        "    max_depth=${3:-1},",
+        "    num_leaves=${4:31},",
+        "    min_child_samples=${5:20},",
+        "    subsample=${6:0.8},",
+        "    colsample_bytree=${7:0.8},",
+        "    reg_alpha=${8:0.1},",
+        "    reg_lambda=${9:1.0},",
+        "    random_state=${10:42},",
+        "    n_jobs=${11:-1},",
+        "    class_weight=${12:None},",
+        "    boosting_type=${13:\"gbdt\"},",
+        "    objective=${14:\"binary\"},",
+        "    metric=${15:\"auc\"}",
+        ")",
+        "",
+        "lgbm_model.fit(${16:X_train}, ${17:y_train})"
+    ]
+},
+// =========================
+"Classification Evaluate Model": {
+    "prefix": "sk: (mc) classification_evaluate",
+    "body": [
+        "def classification_evaluate_model(model, X_train, X_test, y_train, y_test, model_name=\"Model\", plot=True, verbose=True):",
+        "    import time",
+        "    import matplotlib.pyplot as plt",
+        "    import seaborn as sns",
+        "    from sklearn.metrics import (accuracy_score, balanced_accuracy_score, classification_report, confusion_matrix, roc_curve, roc_auc_score, f1_score)",
+        "    start_time = time.time()",
+        "    ",
+        "    # Predictions",
+        "    y_train_pred = model.predict(X_train)",
+        "    y_test_pred  = model.predict(X_test)",
+        "    ",
+        "    # Probabilities (if available)",
+        "    y_test_proba = None",
+        "    if hasattr(model, \"predict_proba\"):",
+        "        y_test_proba = model.predict_proba(X_test)",
+        "    ",
+        "    # Accuracy",
+        "    train_acc = accuracy_score(y_train, y_train_pred)",
+        "    test_acc  = accuracy_score(y_test, y_test_pred)",
+        "    bal_acc   = balanced_accuracy_score(y_test, y_test_pred)",
+        "    ",
+        "    # Extra metrics",
+        "    f1_macro  = f1_score(y_test, y_test_pred, average=\"macro\")",
+        "    f1_micro  = f1_score(y_test, y_test_pred, average=\"micro\")",
+        "    ",
+        "    end_time = time.time()",
+        "    elapsed  = end_time - start_time",
+        "    ",
+        "    if verbose:",
+        "        print(f\"{'='*60}\")",
+        "        print(f\"Evaluation results: {model_name}\")",
+        "        print(f\"{'='*60}\")",
+        "        print(f\"--------- Accuracy ---------\")",
+        "        print(f\"Training Accuracy : {train_acc:.4f}\")",
+        "        print(f\"Testing  Accuracy : {test_acc:.4f}\")",
+        "        print(f\"Balanced Accuracy : {bal_acc:.4f}\")",
+        "        print(f\"Difference        : {abs(train_acc - test_acc):.4f}\")",
+        "        if abs(train_acc - test_acc) > 0.05:",
+        "            print(\"⚠️ Possible overfitting detected!\")",
+        "        else:",
+        "            print(\"✅ Good generalization!\")",
+        "        ",
+        "        print(f\"\\n--------- Extra Metrics (Test Set) ---------\")",
+        "        print(f\"F1 (Macro) : {f1_macro:.4f}\")",
+        "        print(f\"F1 (Micro) : {f1_micro:.4f}\")",
+        "        ",
+        "        print(f\"\\n--------- Classification Report ---------\")",
+        "        print(classification_report(y_test, y_test_pred))",
+        "    ",
+        "    # Plots (subplot style)",
+        "    if plot:",
+        "        fig, axes = plt.subplots(1, 2, figsize=(14, 6))",
+        "        ",
+        "        # Confusion Matrix",
+        "        cm = confusion_matrix(y_test, y_test_pred)",
+        "        sns.heatmap(cm, annot=True, fmt=\"d\", cmap=\"Blues\", linewidths=0.5, linecolor='white',cbar=True, square=True, annot_kws={\"size\": 14, \"weight\": \"bold\"}, ax=axes[0])",
+        "        axes[0].set_xlabel(\"Predicted Label\", fontsize=12)",
+        "        axes[0].set_ylabel(\"True Label\", fontsize=12)",
+        "        axes[0].set_title(f\"Confusion Matrix - {model_name}\", fontsize=14)",
+        "        ",
+        "        # ROC Curve",
+        "        auc = None",
+        "        if y_test_proba is not None:",
+        "            if y_test_proba.shape[1] == 2:  # Binary",
+        "                y_score = y_test_proba[:, 1]",
+        "                auc = roc_auc_score(y_test, y_score)",
+        "                fpr, tpr, _ = roc_curve(y_test, y_score)",
+        "                axes[1].plot(fpr, tpr, linewidth=2, label=f'{model_name} (AUC={auc:.3f})')",
+        "                axes[1].plot([0, 1], [0, 1], 'k--', linewidth=1, label='Random')",
+        "                axes[1].set_xlabel('False Positive Rate', fontsize=12)",
+        "                axes[1].set_ylabel('True Positive Rate', fontsize=12)",
+        "                axes[1].set_title(f'ROC Curve - {model_name}', fontsize=14)",
+        "                axes[1].legend()",
+        "                axes[1].grid(True, alpha=0.3)",
+        "            else:  # Multi-class",
+        "                auc = roc_auc_score(y_test, y_test_proba, multi_class=\"ovr\")",
+        "                axes[1].axis(\"off\")",
+        "                axes[1].text(0.5, 0.5, f\"Multi-class AUC (OVR): {auc:.3f}\", ha=\"center\", va=\"center\", fontsize=14, weight=\"bold\")",
+        "        else:",
+        "            axes[1].axis(\"off\")",
+        "            axes[1].text(0.5, 0.5, \"No Probabilities Available\", ha=\"center\", va=\"center\", fontsize=12, style=\"italic\")",
+        "        ",
+        "        plt.tight_layout()",
+        "        plt.show()",
+        "    ",
+        "    return {",
+        "        \"train_acc\": train_acc,",
+        "        \"test_acc\": test_acc,",
+        "        \"bal_acc\": bal_acc,",
+        "        \"f1_macro\": f1_macro,",
+        "        \"f1_micro\": f1_micro,",
+        "        \"auc\": auc,",
+        "        \"time_sec\": elapsed",
+        "    }"
+    ],
+    "description": "Evaluate classification model with accuracy, F1, confusion matrix, ROC curve, and report"
+},
+// =========================
+"Linear Regression": {
+    "prefix": "sk: (mr) linear_regression",
+    "description": "Create and fit Linear Regression model",
+    "body": [
+        "from sklearn.linear_model import LinearRegression",
+        "",
+        "${1:lr_model} = LinearRegression()",
+        "$1.fit(${2:X_train}, ${3:y_train})",
+    ]
+},
+// =========================
+"lasso_regression": {
+    "prefix": "sk: (mr) lasso_regression",
+    "description": "Create and fit Lasso Regression model",
+    "body": [
+        "from sklearn.linear_model import Lasso",
+        "",
+        "${1:lasso} = Lasso(alpha=${2:1000})",
+        "$1.fit(${3:X_train}, ${4:y_train})",
+    ]
+},
+// =========================
+"ridge_regression": {
+    "prefix": "sk: (mr) ridge_regression",
+    "description": "Create and fit Ridge Regression model",
+    "body": [
+        "from sklearn.linear_model import Ridge",
+        "",
+        "${1:ridge} = Ridge(alpha=${2:100})",
+        "$1.fit(${3:X_train}, ${4:y_train})",
+    ]
+},
+// =========================
+"elasticnet_regression": {
+    "prefix": "sk: (mr) elasticnet_regression",
+    "description": "Create and fit ElasticNet Regression model",
+    "body": [
+        "from sklearn.linear_model import ElasticNet",
+        "",
+        "${1:elastic_model} = ElasticNet(alpha=${2:0.1}, l1_ratio=${3:0.5})",
+        "$1.fit(${4:X_train}, ${5:y_train})",
+    ]
+},
+// =========================
+"Support Vector Regressor": {
+    "prefix": "sk: (mr) SVR",
+    "description": "Create and fit Support Vector Regressor model",
+    "body": [
+        "from sklearn.svm import SVR",
+        "",
+        "${1:svr_model} = SVR(",
+        "    kernel='${2|rbf,linear,poly,sigmoid|}',",
+        "    C=${3:1.0}",
+        ")",
+        "$1.fit(${4:X_train}, ${5:y_train})",
+    ]
+},
+// =========================
+"Polynomial Features": {
+    "prefix": "sk: (mr) polynomial-features",
+    "description": "Create polynomial features for regression",
+    "body": [
+        "from sklearn.preprocessing import PolynomialFeatures",
+        "from sklearn.linear_model import LinearRegression",
+        "from sklearn.pipeline import Pipeline",
+        "",
+        "${1:poly_model} = Pipeline([",
+        "    ('poly', PolynomialFeatures(degree=${2:2})),",
+        "    ('linear', LinearRegression())",
+        "])",
+        "$1.fit(${3:X_train}, ${4:y_train})",
+    ]
+}
+}
