@@ -1,0 +1,239 @@
+{
+// ========================= [1] Files & Saving =========================
+"files.autoSave": "afterDelay",                   // Auto-save when window focus changes
+"files.autoSaveDelay": 1000,                      // Delay before autosave triggers
+"files.hotExit": "onExitAndWindowClose",          // Preserve unsaved changes on exit
+"files.trimTrailingWhitespace": true,             // Remove trailing whitespace
+"files.insertFinalNewline": true,                 // Ensure file ends with a newline
+"files.trimFinalNewlines": true,                  // Remove extra blank lines at EOF
+"files.defaultLanguage": "python",                // Set Python as default language
+"files.restoreUndoStack": false,                  // Don’t restore undo history from old sessions
+"files.autoGuessEncoding": true,                  // Detect encoding automatically (important for UTF-8)
+"files.simpleDialog.enable": true,                // Use simpler file dialogs for faster response
+"files.exclude": {                                // Hide common cache/metadata folders
+    "**/__pycache__": true,
+    "**/.git": true,
+    "**/.ipynb_checkpoints": true,
+    "**/.pytest_cache": true,
+    "**/.mypy_cache": true,
+    "**/.venv": true,
+    "**/env": true,
+    "**/.DS_Store": true,
+    "**/.vscode": false
+},
+"files.watcherExclude": {                         // Ignore watching unnecessary files
+    "**/*.log": true,
+    "**/*.tmp": true,
+    "**/*.bak": true,
+    "**/node_modules/**": true
+},
+"git.ignoreLimitWarning": true,                   // Hide "too many files" warning
+"typescript.updateImportsOnFileMove.enabled": "always", // Auto-update imports when files move
+"editor.formatOnSave": true,                      // Auto format on save
+"editor.formatOnSaveMode": "modifications",       // Format only changed lines
+"editor.linkedEditing": true,                     // Rename paired tags automatically
+
+// ========================= [2] Editor & UI =========================
+"editor.fontFamily": "JetBrains Mono, Fira Code, Cascadia Code, monospace", // Developer fonts
+"editor.suggest.snippetsPreventQuickSuggestions": false,                    // Snippets + suggestions together
+"editor.fontLigatures": true,                     // Enable ligatures (→, ⇒, !=, etc.)
+"editor.fontSize": 15,                            // Font size
+"editor.lineHeight": 1.5,                         // Line spacing
+"editor.smoothScrolling": true,                   // Smooth scroll animation
+"editor.cursorBlinking": "smooth",                // Smooth blinking cursor
+"editor.cursorSmoothCaretAnimation": "on",        // Smooth cursor motion
+"editor.renderWhitespace": "selection",           // Show whitespace only when selected
+"editor.guides.bracketPairs": "active",           // Highlight active brackets
+"editor.bracketPairColorization.enabled": true,   // Colorize matching brackets
+"editor.minimap.enabled": false,                  // Disable right-side minimap
+"editor.mouseWheelZoom": true,                    // Ctrl + Scroll to zoom
+"editor.wordWrap": "off",                         // Disable word wrapping
+"editor.renderControlCharacters": false,          // Hide invisible control chars
+"editor.guides.indentation": true,                // Show indent guides
+"editor.renderLineHighlight": "all",              // Highlight entire current line
+"editor.occurrencesHighlight": "singleFile",      // Highlight symbol occurrences
+"editor.stickyScroll.enabled": true,              // Keep class/function headers visible
+"editor.hover.delay": 200,                        // Faster hover pop-up
+"editor.suggestSelection": "recentlyUsed",        // Suggest recently used completions
+"editor.quickSuggestionsDelay": 50,               // Faster autocomplete delay
+"editor.inlayHints.enabled": "on",                // Show inline hints (params, types)
+"breadcrumbs.enabled": true,                      // Show navigation path at top of editor
+"editor.fontWeight": "400",                       // Normal weight for better readability
+"workbench.list.smoothScrolling": true,           // Smooth scroll in sidebars
+"editor.cursorWidth": 2,                          // Thicker cursor for visibility
+"editor.scrollBeyondLastLine": true,              // Allow space after last line for clean scroll
+
+// ========================= [3] Integrated Terminal =========================
+"terminal.integrated.fontSize": 21,                 // Terminal font size
+"terminal.integrated.lineHeight": 1.2,              // Compact vertical spacing
+"terminal.integrated.cursorStyle": "line",          // Cursor shape
+"terminal.integrated.cursorBlinking": true,         // Blinking cursor
+"terminal.integrated.copyOnSelection": true,        // Auto-copy selected text
+"terminal.integrated.smoothScrolling": true,        // Smooth scroll
+"terminal.integrated.rightClickBehavior": "paste",  // Right-click to paste
+"terminal.integrated.mouseWheelZoom": true,         // Zoom with Ctrl + Scroll
+"terminal.integrated.scrollback": 20000,            // Keep large scroll history
+"terminal.integrated.env.windows": {                // Force UTF-8 encoding
+"PYTHONUTF8": "1",
+"PYTHONIOENCODING": "utf-8"
+},
+"terminal.integrated.commandsToSkipShell": [
+    "workbench.action.terminal.clear",
+    "workbench.action.terminal.scrollToBottom"
+],
+"terminal.integrated.defaultProfile.windows": "Git Bash",   // Default terminal
+"terminal.integrated.enableVisualBell": false,              // Disable audible bell, use visual bell instead
+"terminal.integrated.fontFamily": "JetBrains Mono",         // Match editor font for consistency
+"terminal.integrated.enableMultiLinePasteWarning": "never", // Disable multi-line warning
+"terminal.integrated.tabs.enabled": true, // Show terminal tabs
+"terminal.integrated.shellIntegration.enabled": true,       // Better integration (for Bash/Python)
+"terminal.integrated.gpuAcceleration": "on",                // Use GPU rendering for smoother visuals
+"terminal.integrated.defaultLocation": "editor",            // Open terminals beside code
+
+// ========================= [4] Python =========================
+"python.defaultInterpreterPath": "python",                  // Default Python interpreter
+"[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"  // Use Black formatter
+},
+"python.analysis.autoImportCompletions": true,      // Auto-import suggestions
+"python.analysis.typeCheckingMode": "off",          // Basic type checking
+"python.analysis.extraPaths": [                     // Extra paths for analysis
+    "./src",
+    "./scripts",
+    "./notebooks",
+    "./modules"
+],
+"python.autoComplete.extraPaths": [                 // Same for autocomplete
+    "./src",
+    "./scripts",
+    "./notebooks",
+    "./modules"
+],
+"python.analysis.importFormat": "absolute",             // Clean imports suggestion style
+"python.languageServer": "Default",                     // Ensure latest analysis engine
+"python.testing.autoTestDiscoverOnSaveEnabled": true,   // Auto-detect tests
+"python.analysis.useLibraryCodeForTypes": true,    // Use library type info for better autocomplete
+"editor.suggest.localityBonus": true,              // Prioritize local variables in suggestions
+"editor.suggest.preview": true,                    // Preview completions before applying
+"editor.suggest.showSnippets": true,               // Show snippets along with suggestions
+"python.analysis.diagnosticSeverityOverrides": {
+    "reportMissingImports": "information"
+},
+"python.analysis.completeFunctionParens": true,     // Auto-complete function parentheses
+"python.testing.pytestArgs": [ "tests" ],           // Pytest settings
+"python.testing.unittestEnabled": false,
+"python.testing.pytestEnabled": true,
+
+// ========================= [5] Code Runner =========================
+"code-runner.executorMap": { "python": "cls && python -u" }, // Clear before run
+"code-runner.runInTerminal": true,                  // Run inside terminal
+"code-runner.clearPreviousOutput": true,            // Clear old output each run
+"code-runner.ignoreSelection": true,                // Run full file only
+
+// ========================= [6] Git & Version Control =========================
+"git.autofetch": true,                              // Auto-fetch changes
+"git.confirmSync": false,                           // No sync confirmation
+"git.enableSmartCommit": true,                      // Allow single-click commits
+"git.decorations.enabled": true,                    // Show file changes indicators
+"gitlens.hovers.currentLine.over": "line",          // If you use GitLens, show blame inline
+"gitlens.currentLine.scrollable": true,             // Make blame tooltip scrollable
+"gitlens.codeLens.recentChange.enabled": true,      // Show recent changes above functions
+
+// ========================= [7] Workbench & UI =========================
+"workbench.startupEditor": "none",                  // Skip welcome page
+"workbench.colorTheme": "macOS Classic Dark",       // Color theme
+"workbench.iconTheme": "vscode-icons-mac",          // Icon theme
+"window.newWindowDimensions": "maximized",          // Maximize new windows
+"window.restoreFullscreen": false,                  // Don't restore fullscreen
+"window.zoomLevel": 0,                              // Default zoom
+"window.autoDetectColorScheme": false,              // Don't auto-switch theme
+"workbench.statusBar.visible": true,                // Show status bar
+"workbench.editor.showTabs": "multiple",            // Show multiple tabs
+"explorer.confirmDelete": false,                    // Skip delete confirm
+"explorer.confirmDragAndDrop": false,               // Skip drag/drop confirm
+"workbench.sideBar.location": "left",               // Standard developer layout
+"workbench.panel.defaultLocation": "bottom",        // Keep terminal/panel at bottom
+
+// ========================= [8] Markdown =========================
+"[markdown]": {
+    "editor.wordWrap": "on",                          // Wrap long lines
+    "editor.quickSuggestions": {                      // Disable inline suggestions
+        "comments": "off",
+        "strings": "off",
+        "other": "off"}
+},
+"markdown.preview.breaks": true,                    // Render line breaks
+"markdown.preview.scrollEditorWithPreview": true,   // Sync scrolling
+"markdown.preview.scrollPreviewWithEditor": true,
+"markdown.preview.fontSize": 15,                    // Font size
+
+// ========================= [9] JavaScript / TypeScript =========================
+"[javascript]": { "editor.defaultFormatter": "vscode.typescript-language-features" },
+"[typescriptreact]": { "editor.defaultFormatter": "vscode.typescript-language-features" },
+
+// ========================= [10] Color & Theme Customizations =========================
+"workbench.colorCustomizations": {
+    "editor.background": "#1E1E1E",
+    "editor.foreground": "#E0E0E0",
+    "activityBar.background": "#1E1E1E",
+    "activityBar.foreground": "#CCCCCC",
+    "activityBar.border": "#2D2D2D",
+    "sideBar.background": "#252526",
+    "sideBar.foreground": "#CCCCCC",
+    "statusBar.background": "#1E1E1E",
+    "statusBar.foreground": "#CCCCCC",
+    "tab.activeBackground": "#333333",
+    "tab.inactiveBackground": "#252526",
+    "tab.border": "#1E1E1E00",
+    "editorGroupHeader.tabsBackground": "#252526",
+    "terminal.background": "#000000",
+    "terminal.foreground": "#FFFFFF",
+    "titleBar.activeBackground": "#1E1E1E",
+    "titleBar.activeForeground": "#CCCCCC"
+},
+"workbench.layoutControl.enabled": true, // Show layout switcher (panel, sidebar)
+"workbench.preferredDarkColorTheme": "macOS Classic Dark v2",
+"workbench.productIconTheme": "Default",
+"window.titleBarStyle": "custom", // Blend title bar with theme
+"editor.renderIndentGuides": true, // Show clean indentation guides
+
+// ========================= [11] File Associations =========================
+"files.associations": {
+    "*.dbclient-js": "javascript",
+    "*.yrf": "json",
+    "*.rpx": "xml",
+    "*.stl": "json"
+},
+
+// ========================= [12] Copilot & Security =========================
+"github.copilot.nextEditSuggestions.enabled": true, // Copilot next-suggestion
+"security.workspace.trust.untrustedFiles": "open",   // Auto-open untrusted files
+"python.terminal.activateEnvironment": true,       // Auto-activate Python env in terminal
+
+// ========================= [13] Developer Comfort & Productivity =========================
+"editor.codeActionsOnSave": {
+    "source.organizeImports": "always",   // Auto-organize imports
+    "source.fixAll": "always"         // Auto-fix linting errors
+},
+"editor.formatOnPaste": true,       // Auto-format when pasting
+"editor.suggest.insertMode": "replace",  // Replace word while autocompleting
+"editor.parameterHints.enabled": true,   // Show function signature hints
+"editor.tabCompletion": "on",            // Tab to complete suggestions
+"workbench.editor.enablePreview": false, // Keep tabs open (no auto-replace)
+"workbench.editor.enablePreviewFromQuickOpen": false,
+"explorer.sortOrder": "type",            // Group files by type
+"explorer.compactFolders": false,        // Show full folder hierarchy
+"explorer.autoReveal": true,             // Reveal current file in explorer
+"window.commandCenter": true,            // Show command palette in title bar
+"editor.inlineSuggest.enabled": true,    // Inline AI code suggestions
+"editor.acceptSuggestionOnEnter": "smart",      // Accept suggestions smartly
+"editor.suggest.shareSuggestSelections": true,  // Copilot learns from your choices
+
+// ========================= [14] Performance & Stability =========================
+"workbench.editor.restoreViewState": true,              // Restore last scroll/selection
+"editor.largeFileOptimizations": true,                  // Optimize for large files
+"search.followSymlinks": false,                         // Ignore symlinks in search
+"terminal.integrated.enablePersistentSessions": false,  // Avoid heavy terminal restore
+"editor.fastScrollSensitivity": 4,                      // Faster scrolling
+"editor.experimental.asyncTokenization": true          // Improve editor responsiveness
+}
