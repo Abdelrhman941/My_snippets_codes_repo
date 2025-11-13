@@ -1,0 +1,242 @@
+1- put this code in git bash :
+```bash
+cat > ~/.bash_profile <<'EOF'
+# ====== تعطيل VSCode من التحكم في PS1 ======
+unset PROMPT_COMMAND
+
+# ====== mamba setup ======
+export MAMBA_EXE="/c/Users/abdal/miniforge3/Library/bin/mamba.exe"
+export MAMBA_ROOT_PREFIX="/c/Users/abdal/miniforge3"
+eval "$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2>/dev/null)"
+
+# ====== Prompt نظيف ======
+PS1='\[\033[1;36m\]\w\[\033[0m\] \[\033[1;33m\]❯\[\033[0m\] '
+
+# ====== Navigation ======
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias back='cd -'
+alias cls='clear'
+
+# ====== Conda/Mamba ======
+alias ca='mamba activate'
+alias cdv='mamba deactivate'
+alias cel='mamba env list'
+alias ci='mamba install -y'
+alias ciy='mamba install -y'
+alias cu='mamba update'
+alias cr='mamba remove'
+alias cec='mamba env create -f'
+alias cee='mamba env export > environment.yml'
+
+# ====== Git ======
+alias gst='git status'
+alias gpl='git pull'
+alias gps='git push'
+alias gcm='git commit -m'
+alias gco='git checkout'
+alias gbr='git branch'
+alias gad='git add .'
+alias gaa='git add --all'
+alias glg='git log --oneline --graph --all -10'
+alias gdf='git diff'
+alias gcl='git clone'
+alias ginit='git init && git add . && git commit -m "Initial commit"'
+
+# ====== Python & ML ======
+alias py='python'
+alias pip='python -m pip'
+alias pipi='python -m pip install'
+alias pipu='python -m pip install --upgrade'
+alias pipf='python -m pip freeze > requirements.txt'
+alias pipr='python -m pip install -r requirements.txt'
+
+# ====== Quick Python Scripts ======
+alias serve='python -m http.server 8000'
+alias tb='python -m tensorboard.main --logdir'
+alias pytest='python -m pytest -v'
+
+# ====== File Operations ======
+alias la='ls -A'
+alias ll='ls -lh'
+alias lla='ls -lAh'
+
+# ====== Quick Utils ======
+alias ports='netstat -tuln'
+alias myip='curl ifconfig.me'
+alias sizeof='du -sh'
+alias weather='curl wttr.in'
+
+# ====== ML/DS Specific ======
+alias pyprof='python -m cProfile -s cumtime'
+alias gpus='nvidia-smi'
+alias gpuw='watch -n 1 nvidia-smi'
+
+# ====== Functions ======
+
+function ipy {
+    if command -v ipython &> /dev/null; then
+        ipython "$@"
+    else
+        echo "❌ IPython not installed in current environment"
+        echo "Install with: ci ipython"
+    fi
+}
+
+function jnb {
+    if python -c "import notebook" 2>/dev/null; then
+        python -m notebook "$@"
+    else
+        echo "❌ Jupyter not installed in current environment"
+        echo "Install with: ci jupyter"
+    fi
+}
+
+function jlab {
+    if python -c "import jupyterlab" 2>/dev/null; then
+        python -m jupyterlab "$@"
+    else
+        echo "❌ JupyterLab not installed in current environment"
+        echo "Install with: ci jupyterlab"
+    fi
+}
+
+function pyclean {
+    local count=0
+
+    for dir in $(find . -type d -name "__pycache__" 2>/dev/null); do
+        rm -rf "$dir"
+        count=$((count + 1))
+    done
+
+    for file in $(find . -type f -name "*.pyc" 2>/dev/null); do
+        rm -f "$file"
+        count=$((count + 1))
+    done
+
+    for file in $(find . -type f -name "*.pyo" 2>/dev/null); do
+        rm -f "$file"
+        count=$((count + 1))
+    done
+
+    if [ $count -gt 0 ]; then
+        echo "✅ Cleaned $count Python cache files/folders"
+    else
+        echo "✨ Already clean!"
+    fi
+}
+
+function envsize {
+    echo "📦 Environment Sizes:"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    if [ -d "$MAMBA_ROOT_PREFIX/envs" ]; then
+        du -sh "$MAMBA_ROOT_PREFIX/envs"/* 2>/dev/null | sort -h | while read size path; do
+            env_name=$(basename "$path")
+            printf "%-20s %s\n" "$env_name" "$size"
+        done
+    else
+        echo "No environments found"
+    fi
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    total=$(du -sh "$MAMBA_ROOT_PREFIX/envs" 2>/dev/null | cut -f1)
+    echo "Total: $total"
+}
+
+function mkenv {
+    if [ -z "$1" ]; then
+        echo "Usage: mkenv <env_name> [python_version]"
+        echo "Example: mkenv myenv 3.11"
+        return 1
+    fi
+    local pyver=${2:-3.11}
+    echo "🔨 Creating environment: $1 with Python $pyver"
+    mamba create -n "$1" python=$pyver -y && mamba activate "$1"
+}
+
+function mlstack {
+    echo "📦 Installing ML/DS essentials..."
+    mamba install -y numpy pandas matplotlib seaborn scikit-learn jupyter ipython
+    echo "✅ ML stack installed!"
+}
+
+function torchinstall {
+    echo "🔥 Installing PyTorch with CUDA 11.8..."
+    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+    echo "✅ PyTorch installed!"
+}
+
+function fullexport {
+    local name=${1:-environment}
+    echo "📤 Exporting environment..."
+    mamba env export > "${name}.yml"
+    pip freeze > "${name}_requirements.txt"
+    echo "✅ Exported to: ${name}.yml and ${name}_requirements.txt"
+}
+
+function train {
+    if [ $# -eq 0 ]; then
+        echo "Usage: train <command>"
+        echo "Example: train python train.py"
+        return 1
+    fi
+    echo "⏱️  Training started at: $(date '+%Y-%m-%d %H:%M:%S')"
+    local start_time=$(date +%s)
+    "$@"
+    local exit_code=$?
+    local end_time=$(date +%s)
+    local duration=$((end_time - start_time))
+    local minutes=$((duration / 60))
+    local seconds=$((duration % 60))
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    if [ $exit_code -eq 0 ]; then
+        echo "✅ Training completed successfully!"
+    else
+        echo "❌ Training failed with exit code: $exit_code"
+    fi
+    echo "⏱️  Duration: ${minutes}m ${seconds}s"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    return $exit_code
+}
+
+function qcm {
+    if [ -z "$1" ]; then
+        local msg="Quick update: $(date '+%Y-%m-%d %H:%M')"
+    else
+        local msg="$1"
+    fi
+    git add .
+    git commit -m "$msg"
+    git push
+}
+
+function tree {
+    local depth=${1:-2}
+    find . -maxdepth $depth -type d 2>/dev/null | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
+}
+
+function path {
+    echo "$PATH" | tr ':' '\n' | nl
+}
+
+function pylab {
+    python -c "
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+print('✅ Imported: np, pd, plt, sns')
+import code
+code.interact(local=dict(globals(), **locals()))
+"
+}
+
+EOF
+```
+
+
+2- run this:
+```bash
+source ~/.bash_profile
+```
